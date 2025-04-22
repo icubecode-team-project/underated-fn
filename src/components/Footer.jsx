@@ -12,7 +12,7 @@ import { RxCrossCircled } from "react-icons/rx";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-gray-300 pt-10 pb-6 text-center">
+    <footer className="bg-[#222222] text-[#fefefe] pt-10 pb-6 text-center">
       <div className="max-w-6xl mx-auto px-4">
 
         {/* Second Row - 5 items */}
