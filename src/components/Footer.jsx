@@ -1,14 +1,28 @@
+<<<<<<< HEAD
 /*import React from 'react';
 import { Link } from 'react-router-dom';
  
 import Logo from '../assets/logo-icon.png';
+=======
+
+
+
+
+
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6"; // You already have this imported, just removing from "Press Room"
+import Icon from "../assets/icon.png";
+import { CiSquareCheck } from "react-icons/ci";
+import { RxCrossCircled } from "react-icons/rx";
+
+>>>>>>> bd12624 (Added Header component, updated Layout and Footer for new design)
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-400 text-sm mt-10">
-      <div className="max-w-7xl mx-auto p-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <footer className="bg-black text-gray-300 pt-10 pb-6 text-center">
+      <div className="max-w-6xl mx-auto px-4">
 
+<<<<<<< HEAD
           <div>
             <h3 className="text-white font-semibold mb-2">Help</h3>
             <ul className="space-y-1">
@@ -137,26 +151,82 @@ const Footer = () => {
         <div className="flex space-x-8 mb-8">
           <a href="#" className="hover:text-blue-400 text-3xl transition-all hover:scale-125">
             <FaFacebookF />
+=======
+        {/* Second Row - 5 items */}
+        <div className="flex justify-center flex-wrap gap-6 mb-4 text-sm">
+          <a href="#" className="hover:text-white flex items-center">
+            Help
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
+>>>>>>> bd12624 (Added Header component, updated Layout and Footer for new design)
           </a>
-          <a href="#" className="hover:text-sky-400 text-3xl transition-all hover:scale-125">
-            <FaTwitter />
+          <a href="#" className="hover:text-white flex items-center">
+            Site Index
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
           </a>
-          <a href="#" className="hover:text-pink-500 text-3xl transition-all hover:scale-125">
-            <FaInstagram />
+          <a href="#" className="hover:text-white flex items-center">
+            UnderatedPro
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
           </a>
-          <a href="#" className="hover:text-red-500 text-3xl transition-all hover:scale-125">
-            <FaYoutube />
+          <a href="#" className="hover:text-white flex items-center">
+            Box Office Mojo
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            License Underated Data
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
           </a>
         </div>
 
-        {/* Copyright Text */}
-        <p className="text-center text-gray-400 text-lg">
-          © {new Date().getFullYear()} Underated. All rights reserved.
+        {/* Third Row - 6 items */}
+        <div className="flex justify-center flex-wrap gap-6 mb-4 text-sm">
+          <a href="#" className="hover:text-white flex items-center">
+            Press Room
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Advertising
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Jobs
+            <FaArrowUpRightFromSquare className="ml-1 text-xs" />
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Conditions of Use
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+  
+  <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full ">
+    <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg  w-4 h-2.5" />
+    <RxCrossCircled className="text-white  bg-black text-lg w-3" h-1 />
+  </span>
+  Your Ads Privacy Choices
+</a>
+
+
+        </div>
+
+        {/* Fourth Row */}
+        <p className="mb-2 text-sm text-gray-400 flex items-center justify-center gap-2">an
+  <img 
+    src={Icon}
+    alt="Underated Logo"
+    className="w-6 h-6"
+  />
+  Company
+</p>
+
+
+        {/* Fifth Row */}
+        <p className="text-xs text-gray-500">
+          © 1990-{new Date().getFullYear()} by underated.com, Inc
         </p>
+
       </div>
     </footer>
   );
 };
 
 export default Footer;
-
