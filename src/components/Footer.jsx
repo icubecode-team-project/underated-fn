@@ -1,77 +1,6 @@
-<<<<<<< HEAD
-/*import React from 'react';
-import { Link } from 'react-router-dom';
- 
-import Logo from '../assets/logo-icon.png';
-=======
 
 
 
-
-
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { FaArrowUpRightFromSquare } from "react-icons/fa6"; // You already have this imported, just removing from "Press Room"
-import Icon from "../assets/icon.png";
-import { CiSquareCheck } from "react-icons/ci";
-import { RxCrossCircled } from "react-icons/rx";
-
->>>>>>> bd12624 (Added Header component, updated Layout and Footer for new design)
-
-const Footer = () => {
-  return (
-    <footer className="bg-black text-gray-300 pt-10 pb-6 text-center">
-      <div className="max-w-6xl mx-auto px-4">
-
-<<<<<<< HEAD
-          <div>
-            <h3 className="text-white font-semibold mb-2">Help</h3>
-            <ul className="space-y-1">
-              <li><Link to="#" className="hover:text-white">Site</Link></li>
-              <li><Link to="#" className="hover:text-white">underated.com </Link></li>
-              <li><Link to="#" className="hover:text-white">Box Office Mojo</Link></li>
-              <li><Link to="#" className="hover:text-white">License</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-white font-semibold mb-2">More</h3>
-            <ul className="space-y-1">
-              <li><Link to="#" className="hover:text-white">underated.com Pro</Link></li>
-              <li><Link to="#" className="hover:text-white">Press Room</Link></li>
-              <li><Link to="#" className="hover:text-white">Advertising</Link></li>
-              <li><Link to="#" className="hover:text-white">Jobs</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-white font-semibold mb-2">Legal</h3>
-            <ul className="space-y-1">
-              <li><Link to="#" className="hover:text-white">Conditions of Use</Link></li>
-              <li><Link to="#" className="hover:text-white">Privacy Policy</Link></li>
-              <li><Link to="#" className="hover:text-white">Your Ads Privacy Policy</Link></li>
-              <li><Link to="#" className="hover:text-white">Choices</Link></li>
-            </ul>
-          </div>
-
-          {/*<div className="flex flex-col justify-center">
-            <p className="text-white font-semibold">An Amazon Company</p>
-            <p className="mt-1 text-xs">© 1990–2025 by underated.com, Inc.</p>
-          </div>*/}
-         
-
-<div className="flex flex-col justify-center items-center">
-  <img src={Logo} alt="Company Logo" className="w-20 h-auto mb-2" />
-  <p className="mt-1 text-xs text-white">© 1990–2025 by underated.com, Inc.</p>
-</div>
-
-
-        </div>
-      </div>
-    </footer>
-  );
-};
-
-export default Footer;*/
 
 
 
@@ -80,6 +9,9 @@ export default Footer;*/
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo-icon.png";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { CiSquareCheck } from "react-icons/ci";
+import { RxCrossCircled } from "react-icons/rx";
 
 const Footer = () => {
   return (
@@ -151,13 +83,23 @@ const Footer = () => {
         <div className="flex space-x-8 mb-8">
           <a href="#" className="hover:text-blue-400 text-3xl transition-all hover:scale-125">
             <FaFacebookF />
-=======
+          </a>
+          <a href="#" className="hover:text-blue-400 text-3xl transition-all hover:scale-125">
+            <FaTwitter />
+          </a>
+          <a href="#" className="hover:text-blue-400 text-3xl transition-all hover:scale-125">
+            <FaInstagram />
+          </a>
+          <a href="#" className="hover:text-red-500 text-3xl transition-all hover:scale-125">
+            <FaYoutube />
+          </a>
+        </div>
+
         {/* Second Row - 5 items */}
         <div className="flex justify-center flex-wrap gap-6 mb-4 text-sm">
           <a href="#" className="hover:text-white flex items-center">
             Help
             <FaArrowUpRightFromSquare className="ml-1 text-xs" />
->>>>>>> bd12624 (Added Header component, updated Layout and Footer for new design)
           </a>
           <a href="#" className="hover:text-white flex items-center">
             Site Index
@@ -197,33 +139,21 @@ const Footer = () => {
             Privacy Policy
           </a>
           <a href="#" className="hover:text-white flex items-center">
-  
-  <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full ">
-    <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg  w-4 h-2.5" />
-    <RxCrossCircled className="text-white  bg-black text-lg w-3" h-1 />
-  </span>
-  Your Ads Privacy Choices
-</a>
-
-
+            Your Ads Privacy Choices
+          </a>
         </div>
 
         {/* Fourth Row */}
-        <p className="mb-2 text-sm text-gray-400 flex items-center justify-center gap-2">an
-  <img 
-    src={Icon}
-    alt="Underated Logo"
-    className="w-6 h-6"
-  />
-  Company
-</p>
-
+        <p className="mb-2 text-sm text-gray-400 flex items-center justify-center gap-2">
+          an
+          <img src={Logo} alt="Underated Logo" className="w-6 h-6" />
+          Company
+        </p>
 
         {/* Fifth Row */}
         <p className="text-xs text-gray-500">
           © 1990-{new Date().getFullYear()} by underated.com, Inc
         </p>
-
       </div>
     </footer>
   );

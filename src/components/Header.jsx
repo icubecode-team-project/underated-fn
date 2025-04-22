@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
-import { FaBars } from "react-icons/fa"; // Import FaBars icon from react-icons
-import logo from "../assets/icon.png"; // Your logo path
+import { NavLink } from "react-router-dom"; 
+import { FaBars } from "react-icons/fa"; 
+import logo from "../assets/icon.png"; 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle mobile menu
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Toggle the menu state
+    setIsMenuOpen(!isMenuOpen); 
   };
 
   // Function to trigger the voice when logo is hovered
@@ -38,7 +38,7 @@ const Header = () => {
           <NavLink
             to="/"
             className="hover:text-gray-300"
-            activeClassName="text-yellow-500 underline" // Active class with underline
+            activeClassName="text-yellow-500 underline" 
           >
             Top Movies
           </NavLink>
