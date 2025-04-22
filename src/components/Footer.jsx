@@ -12,7 +12,9 @@ import { RxCrossCircled } from "react-icons/rx";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-gray-300 pt-10 pb-6 text-center">
+    
+      <footer className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md">
+
       <div className="max-w-6xl mx-auto px-4">
 
         {/* Second Row - 5 items */}
@@ -62,7 +64,7 @@ const Footer = () => {
   
   <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full ">
     <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg  w-4 h-2.5" />
-    <RxCrossCircled className="text-white  bg-black text-lg w-3" h-1 />
+    <RxCrossCircled className="bg-[#222222] text-[#fefefe] text-lg w-3" h-1 />
   </span>
   Your Ads Privacy Choices
 </a>
