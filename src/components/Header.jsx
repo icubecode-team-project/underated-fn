@@ -21,6 +21,7 @@ const Header = () => {
 
   return (
     <header className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md">
+
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* Logo on the left with hover color change and voice trigger */}
         <div className="flex items-center">
@@ -75,7 +76,10 @@ const Header = () => {
 
       {/* Mobile menu (toggle visibility with isMenuOpen state) */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-black text-white px-6 py-4 space-y-4">
+        <div className="lg:hidden bg-[#222222] text-[#fefefe] px-6 py-4 space-y-4">
+
+
+
           <NavLink
             to="/"
             className="block hover:text-gray-300"

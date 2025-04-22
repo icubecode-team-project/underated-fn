@@ -3,18 +3,15 @@
 
 
 
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { FaArrowUpRightFromSquare } from "react-icons/fa6"; // You already have this imported, just removing from "Press Room"
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import Icon from "../assets/icon.png";
 import { CiSquareCheck } from "react-icons/ci";
 import { RxCrossCircled } from "react-icons/rx";
-
 
 const Footer = () => {
   return (
     <footer className="bg-[#222222] text-[#fefefe] pt-10 pb-6 text-center">
       <div className="max-w-6xl mx-auto px-4">
-
         {/* Second Row - 5 items */}
         <div className="flex justify-center flex-wrap gap-6 mb-4 text-sm">
           <a href="#" className="hover:text-white flex items-center">
@@ -59,33 +56,24 @@ const Footer = () => {
             Privacy Policy
           </a>
           <a href="#" className="hover:text-white flex items-center">
-  
-  <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full ">
-    <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg  w-4 h-2.5" />
-    <RxCrossCircled className="text-white  bg-black text-lg w-3" h-1 />
-  </span>
-  Your Ads Privacy Choices
-</a>
-
-
+            <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full">
+              <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg w-4 h-2.5" />
+              <RxCrossCircled className="bg-[#222222] text-[#fefefe] text-lg w-3" />
+            </span>
+            Your Ads Privacy Choices
+          </a>
         </div>
 
         {/* Fourth Row */}
-        <p className="mb-2 text-sm text-gray-400 flex items-center justify-center gap-2">an
-  <img 
-    src={Icon}
-    alt="Underated Logo"
-    className="w-6 h-6"
-  />
-  Company
-</p>
-
+        <p className="mb-2 text-sm text-gray-400 flex items-center justify-center gap-2">
+          <img src={Icon} alt="Underated Logo" className="w-6 h-6" />
+          Company
+        </p>
 
         {/* Fifth Row */}
         <p className="text-xs text-gray-500">
           © 1990-{new Date().getFullYear()} by underated.com, Inc
         </p>
-
       </div>
     </footer>
   );
