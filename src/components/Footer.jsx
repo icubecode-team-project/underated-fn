@@ -10,6 +10,8 @@ import { CiSquareCheck } from "react-icons/ci";
 import { RxCrossCircled } from "react-icons/rx";
 
 
+
+
 const Footer = () => {
   return (
     
@@ -61,11 +63,14 @@ const Footer = () => {
             Privacy Policy
           </a>
           <a href="#" className="hover:text-white flex items-center">
-  
-  <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full ">
-    <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg  w-4 h-2.5" />
-    <RxCrossCircled className="bg-[#222222] text-[#fefefe] text-lg w-3" h-1 />
-  </span>
+
+
+
+          <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full ">
+  <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg w-4 h-2.5" />
+  <RxCrossCircled className="bg-[#222222] text-[#fefefe] text-lg w-3 h-1" />
+</span>
+
   Your Ads Privacy Choices
 </a>
 
