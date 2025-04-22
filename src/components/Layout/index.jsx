@@ -3,7 +3,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header"; // Import the Header component
-import Footer from "../Footer";
+
 
 const Layout = () => {
   return (
@@ -12,7 +12,7 @@ const Layout = () => {
       <main className="flex-grow">
         <Outlet /> {/* This is where nested routes will be rendered */}
       </main>
-      <Footer /> {/* Footer at the bottom */}
+      
     </div>
   );
 };
