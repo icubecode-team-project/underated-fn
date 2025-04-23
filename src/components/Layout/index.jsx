@@ -3,7 +3,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-import Footer from "../Footer";
+
+
+
+import Header from "../Header"; // Import the Header component
+import Footer from "../Footer";  // Import the Footer component
 
 const Layout = () => {
   return (
