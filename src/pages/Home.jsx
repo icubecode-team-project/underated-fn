@@ -2,8 +2,13 @@ import React from "react";
 
 
 
-import ImageSlider from "../components/ImageSlider/imageSlider.jsx";
 
+
+
+
+
+
+import ImageSlider from "../components/ImageSlider/ImageSlider.jsx";
 
 const Home = () => {
   return (
