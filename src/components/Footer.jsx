@@ -1,14 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import Icon from "../assets/icon.png";
