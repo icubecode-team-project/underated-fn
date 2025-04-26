@@ -1,6 +1,5 @@
 import React from "react";
 import Carousel from "../Carousel/Carousel.jsx";
-import Carousel from "../Carousel/Carousel.jsx";
 
 const ImageSlider = () => {
   let slides = [
