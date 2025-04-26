@@ -1,22 +1,16 @@
-// src/components/Layout/index.js
-
 import React from "react";
 import { Outlet } from "react-router-dom";
-
-
-
-
-
 import Footer from "../Footer";  // Import the Footer component
+import Header from "../Header";
 
 const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      
+      <Header />
       <main className="flex-grow">
-        <Outlet /> {/* This is where nested routes will be rendered */}
+        <Outlet />
       </main>
-      <Footer /> {/* Footer at the bottom */}
+      <Footer />
     </div>
   );
 };
