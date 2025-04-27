@@ -4,46 +4,49 @@ import { IoTicket } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const MovieCard = ({ cardData }) => {
   const { poster_path, original_title, vote_average, release_date } = cardData;
 
   return (
-    <div className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative">
-      <div>
-        <img
-          className="w-[180px] h-[270px] rounded-lg"
-          src={POSTER_CDN + poster_path}
-          alt="poster-image"
-        />
-      </div>
-      <div className="py-4 px-4 bg-black opacity-60 rounded-br-lg text-white font-bold w-[40px] absolute top-0 left-0 z-10 felx flex-col justify-center items-center">
-        <FaPlus />
-      </div>
-      <div className="px-2 flex flex-row justify-between items-center">
-        <p className="flex items-center gap-1 text-[#fefefe]">
-          <FaStar className="text-yellow-500" />
-          {Math.floor(vote_average)}
-        </p>
-        <div className="">
-          <FaRegStar className="text-blue-500" />
+    <Link to={`/movie/${cardData.id}`} className="cursor-pointer">
+      <div className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative">
+        <div>
+          <img
+            className="w-[180px] h-[270px] rounded-lg"
+            src={POSTER_CDN + poster_path}
+            alt="poster-image"
+          />
         </div>
-        <div className="">
-          <p>{release_date.slice(0, 4)}</p>
+        <div className="py-4 px-4 bg-black opacity-60 rounded-br-lg text-white font-bold w-[40px] absolute top-0 left-0 z-10 felx flex-col justify-center items-center">
+          <FaPlus />
+        </div>
+        <div className="px-2 flex flex-row justify-between items-center">
+          <p className="flex items-center gap-1 text-[#fefefe]">
+            <FaStar className="text-yellow-500" />
+            {Math.floor(vote_average)}
+          </p>
+          <div className="">
+            <FaRegStar className="text-blue-500" />
+          </div>
+          <div className="">
+            <p>{release_date.slice(0, 4)}</p>
+          </div>
+        </div>
+        <p className="px-2 truncate  font-bold">{original_title}</p>
+        <div className="flex flex-col items-center gap-1 p-2">
+          <button className="flex items-center gap-2 py-2 px-6 bg-[#3f3f3f] rounded-lg text-blue-500">
+            <IoTicket />
+            Show Times
+          </button>
+          <button className="flex items-center gap-1 py-2 px-6 rounded-lg  ">
+            <FaPlay />
+            Trailer
+          </button>
         </div>
       </div>
-      <p className="px-2 truncate  font-bold">{original_title}</p>
-      <div className="flex flex-col items-center gap-1 p-2">
-        <button className="flex items-center gap-2 py-2 px-6 bg-[#3f3f3f] rounded-lg text-blue-500">
-          <IoTicket />
-          Show Times
-        </button>
-        <button className="flex items-center gap-1 py-2 px-6 rounded-lg  ">
-          <FaPlay />
-          Trailer
-        </button>
-      </div>
-    </div>
+    </Link>
   );
 };
 
