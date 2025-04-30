@@ -5,20 +5,20 @@ import "./App.css";
 import Login from "./pages/Login";
 import ErrorBoundary from "./components/ErrorBoundary";
 import FallBackUI from "./components/FallBackUI.jsx";
-
+import MovieDetails from "./pages/MovieDetails";
 
 function App() {
   return (
     <ErrorBoundary fallback={<FallBackUI />}>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        {/* Add more nested routes here like about, contact etc...*/}
-      </Route>
-      {/* Add more Routes here like login, logout etc..*/}
-      <Route path="/login" element={<Login/>}/>
-      
-    </Routes>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
+          {/* Add more nested routes here like about, contact etc...*/}
+        </Route>
+        {/* Add more Routes here like login, logout etc..*/}
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </ErrorBoundary>
   );
 }
