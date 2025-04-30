@@ -46,10 +46,10 @@ const Carousel = ({ slides }) => {
       </div>
 
       <div className="absolute top-0 h-full w-full justify-between items-center flex text-white px-10 text-3xl">
-        <button onClick={previousSlide}>
+        <button className="cursor-pointer" onClick={previousSlide}>
           <BsFillArrowLeftCircleFill />
         </button>
-        <button onClick={nextSlide}>
+        <button className="cursor-pointer" onClick={nextSlide}>
           <BsFillArrowRightCircleFill />
         </button>
       </div>
