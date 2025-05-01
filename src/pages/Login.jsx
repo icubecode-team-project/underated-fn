@@ -1,7 +1,8 @@
-
+import { IoMdArrowBack } from "react-icons/io";
 import React, { useState } from "react";
 import  logo from '../assets/icon-removebg.png';
-import {  NavLink } from "react-router-dom";
+import {  Link, NavLink } from "react-router-dom";
+
 
 const Login = () => {
      
@@ -16,15 +17,17 @@ const Login = () => {
   };
 
   return (
+    
     <div className="min-h-screen py-6 flex items-center justify-center  text-[#fefefe] bg-[#222222]">
-      
-      <div className="w-full max-w-md  p-8 rounded-lg shadow-md border-1 border-[#fefefe]  bg-[#2a2a2a]">
+     
+      <div className="  w-full max-w-md  p-8 rounded-lg shadow-md border-1 border-[#fefefe]  bg-[#2a2a2a]">
+        
         <div className="flex flex-row justify-center">
           <img  className="w-1/4 " src={logo} alt="logo"/>
         </div>
       
         {/* <h2 className="text-2xl font-bold  text-center mb-6 ">Login</h2> */}
-        <form onSubmit={handleSubmit} className="text-[#fefefe] space-y-4">
+        <form onSubmit={handleSubmit} className=" text-[#fefefe] space-y-4">
           <div>
             <label className=" text-[#fefefe]">Email</label>
             <input
@@ -33,8 +36,11 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              autoComplete="current-email" 
+              autoComplete="current-email"  
             />
+             < Link to='/' className="absolute top-10 left-10  ">
+    <IoMdArrowBack className="text-[30px] font-bold " />
+    </Link>
           </div>
           <div>
             <label className=" text-[#fefefe]">Password</label>
@@ -59,6 +65,7 @@ const Login = () => {
         </form>
       </div>
     </div>
+    
   );
 };
 
