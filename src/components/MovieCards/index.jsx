@@ -1,9 +1,13 @@
 import React from "react";
-import { data } from "../../assets/cardsData.js";
+// import { data } from "../../assets/cardsData.js";
 import MovieCard from "../MovieCard/index.jsx";
 import { FaGreaterThan } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const MovieCards = () => {
+  const moviesList = useSelector((store) => store?.movies?.moviesList);
+  console.log(moviesList);
+
   return (
     <div className="pt-10 bg-[#222222]">
       <div className="pl-14 ">
@@ -19,7 +23,7 @@ const MovieCards = () => {
       </div>
       <div className="flex">
         <div className="text-white w-full bg-[#222222] p-6 flex flex-row flex-wrap gap-4 justify-center">
-          {data?.results?.map((eachCard, index) => (
+          {moviesList.map((eachCard, index) => (
             <MovieCard key={index} cardData={eachCard} />
           ))}
         </div>

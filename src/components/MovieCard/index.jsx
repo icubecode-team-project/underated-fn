@@ -7,15 +7,15 @@ import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const MovieCard = ({ cardData }) => {
-  const { poster_path, original_title, vote_average, release_date } = cardData;
+  const { imageUrl, title, rating, releaseYear } = cardData;
 
   return (
     <div className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative">
-      <Link to={`/movie/${cardData.id}`} className="cursor-pointer">
+      <Link to={`/movie/${cardData._id}`} className="cursor-pointer">
         <div>
           <img
             className="w-[180px] h-[270px] rounded-lg"
-            src={POSTER_CDN + poster_path}
+            src={imageUrl}
             alt="poster-image"
           />
         </div>
@@ -26,16 +26,16 @@ const MovieCard = ({ cardData }) => {
       <div className="px-2 flex flex-row justify-between items-center">
         <p className="flex items-center gap-1 text-[#fefefe]">
           <FaStar className="text-yellow-500" />
-          {Math.floor(vote_average)}
+          {rating}
         </p>
         <div className="">
           <FaRegStar className="text-blue-500" />
         </div>
         <div className="">
-          <p>{release_date.slice(0, 4)}</p>
+          <p>{releaseYear}</p>
         </div>
       </div>
-      <p className="px-2 truncate  font-bold">{original_title}</p>
+      <p className="px-2 truncate  font-bold">{title}</p>
       <div className="flex flex-col items-center gap-1 p-2">
         <button className="flex items-center gap-2 py-2 px-6 bg-[#3f3f3f] rounded-lg text-blue-500 cursor-pointer">
           <IoTicket />

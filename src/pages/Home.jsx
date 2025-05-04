@@ -18,13 +18,11 @@ const Home = () => {
     const url = "http://localhost:8080/api/v1/movie/get/all-movies";
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
-    console.log(data);
-    dispatch(addMovesList(data));
+    dispatch(addMovesList(data?.data?.movies));
   };
 
   return (
     <>
-      {/* <h1 className="text-3xl text-blue-500 text-center">Header</h1> */}
       <ImageSlider />
       <MovieCards />
     </>
