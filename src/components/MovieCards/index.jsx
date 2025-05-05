@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 
 const MovieCards = () => {
   const moviesList = useSelector((store) => store?.movies?.moviesList);
-  console.log(moviesList);
 
   return (
     <div className="pt-10 bg-[#222222]">

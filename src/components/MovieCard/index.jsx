@@ -18,7 +18,7 @@ const MovieCard = ({ cardData }) => {
         <div>
           <img
             className="w-[180px] h-[270px] rounded-lg"
-            src={imageUrl}
+            src={POSTER_CDN + imageUrl}
             alt="poster-image"
           />
         </div>

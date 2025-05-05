@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { data, geners } from "../assets/cardsData.js";
+import { geners } from "../assets/cardsData.js";
 import { POSTER_CDN } from "../assets/constants.js";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
@@ -13,14 +13,29 @@ import { useSelector } from "react-redux";
 const MovieDetails = () => {
   const { id } = useParams();
 
-  const genre_ids = [28, 12, 16, 35]; // TODO take geners from backend
+  console.log(id);
 
   const moviesList = useSelector((store) => store?.movies?.moviesList);
 
+  if (!moviesList) {
+    return null;
+  }
+
+  console.log(moviesList);
+
+  if (!moviesList || moviesList.length === 0) {
+    return "Loading...";
+  }
+
   const movie = moviesList.find(
-    (movie) => movie._id || movie.id === parseInt(id)
+    (movie) => movie._id === id || movie.id === parseInt(id)
   );
-  const { title, imageUrl, rating, description, releaseYear } = movie;
+
+  if (!movie) {
+    return <p className="text-white">Movie not found</p>;
+  }
+
+  const { title, imageUrl, rating, description, releaseYear, type } = movie;
 
   return (
     <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center min-h-screen">
@@ -55,28 +70,26 @@ const MovieDetails = () => {
       </div>
       <div className=" flex flex-row justify-center w-[60vw] relative">
         <img
-          src={imageUrl}
+          src={POSTER_CDN + imageUrl}
           alt="movie poster"
           className="w-[40vw]  rounded-lg"
         />
       </div>
       <div className="flex justify-between w-[60vw]">
-        <div className="flex flex-row justify-start items-start gap-2  pt-4">
-          {genre_ids.map((genre, index) => {
-            return (
+        <div className="flex flex-row justify-start items-start gap-2 pt-4">
+          {JSON.parse(type).map((genreId, index) => {
+            const genreName = geners.find((g) => g.id == genreId)?.name;
+            return genreName ? (
               <div
                 key={index}
                 className="bg-[#444444] text-white rounded-[30px] px-6 py-1"
               >
-                {geners.map((g) => {
-                  if (g.id === genre) {
-                    return g.name;
-                  }
-                })}
+                {genreName}
               </div>
-            );
+            ) : null;
           })}
         </div>
+
         <div className="flex flex-row items-center gap-4 cursor-pointer ">
           <div className="text-white">
             <AiTwotoneLike className="text-2xl" />

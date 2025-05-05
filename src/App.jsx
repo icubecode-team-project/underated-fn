@@ -6,8 +6,26 @@ import Login from "./pages/Login";
 import ErrorBoundary from "./components/ErrorBoundary";
 import FallBackUI from "./components/FallBackUI.jsx";
 import MovieDetails from "./pages/MovieDetails";
+import { addMoviesList } from "./utils/movieSlice.js";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { OPTIONS } from "./assets/constants.js";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getMovieDetails();
+  }, []);
+
+  const getMovieDetails = async () => {
+    const url = "http://localhost:8080/api/v1/movie/get/all-movies";
+    const response = await fetch(url, OPTIONS);
+    const data = await response.json();
+    console.log(data?.data?.movies);
+    dispatch(addMoviesList(data?.data?.movies));
+  };
+
   return (
     <ErrorBoundary fallback={<FallBackUI />}>
       <Routes>
