@@ -23,7 +23,7 @@ const MovieDetails = () => {
   const { title, imageUrl, rating, description, releaseYear } = movie;
 
   return (
-    <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center">
+    <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center min-h-screen">
       <div className="text-white flex flex-row gap-6 items-start w-[60vw]">
         <div className="flex-grow flex flex-col justify-start items-start gap-2 ">
           <h1 className="text-3xl">{title}</h1>
