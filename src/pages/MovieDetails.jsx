@@ -6,27 +6,28 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { AiTwotoneLike } from "react-icons/ai";
 import { AiTwotoneDislike } from "react-icons/ai";
+import { useSelector } from "react-redux";
+
+//TODO -> need to fix vote count , imageURL and geners
 
 const MovieDetails = () => {
   const { id } = useParams();
 
-  const movie = data.results.find((movie) => movie.id === parseInt(id));
-  const {
-    original_title,
-    poster_path,
-    vote_average,
-    vote_count,
-    overview,
-    release_date,
-    genre_ids,
-  } = movie;
+  const genre_ids = [28, 12, 16, 35]; // TODO take geners from backend
+
+  const moviesList = useSelector((store) => store?.movies?.moviesList);
+
+  const movie = moviesList.find(
+    (movie) => movie._id || movie.id === parseInt(id)
+  );
+  const { title, imageUrl, rating, description, releaseYear } = movie;
 
   return (
     <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center">
       <div className="text-white flex flex-row gap-6 items-start w-[60vw]">
         <div className="flex-grow flex flex-col justify-start items-start gap-2 ">
-          <h1 className="text-3xl">{original_title}</h1>
-          <p>{release_date.slice(0, 4)}</p>
+          <h1 className="text-3xl">{title}</h1>
+          <p>{releaseYear}</p>
         </div>
         <div className="flex flex-col justify-start items-start gap-2 ">
           <h1 className="text-xl uppercase tracking-widest text-[#fefefe]">
@@ -37,8 +38,8 @@ const MovieDetails = () => {
               <FaStar className="text-3xl text-yellow-500" />
             </div>
             <div className="">
-              <p className="text-2xl">{Math.floor(vote_average) + `/10`}</p>
-              <p>{vote_count}</p>
+              <p className="text-2xl">{rating}</p>
+              <p>vote count</p>
             </div>
           </div>
         </div>
@@ -54,7 +55,7 @@ const MovieDetails = () => {
       </div>
       <div className=" flex flex-row justify-center w-[60vw] relative">
         <img
-          src={POSTER_CDN + poster_path}
+          src={imageUrl}
           alt="movie poster"
           className="w-[40vw]  rounded-lg"
         />
@@ -88,7 +89,7 @@ const MovieDetails = () => {
         </div>
       </div>
       <div className="pb-6 pt-4 w-[60vw]">
-        <p className="text-white  pr-12">{overview}</p>
+        <p className="text-white  pr-12">{description}</p>
       </div>
     </div>
   );

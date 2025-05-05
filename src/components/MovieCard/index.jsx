@@ -11,7 +11,10 @@ const MovieCard = ({ cardData }) => {
 
   return (
     <div className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative">
-      <Link to={`/movie/${cardData._id}`} className="cursor-pointer">
+      <Link
+        to={`/movie/${cardData._id || cardData.id}`}
+        className="cursor-pointer"
+      >
         <div>
           <img
             className="w-[180px] h-[270px] rounded-lg"
