@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import ErrorBoundary from "./components/ErrorBoundary";
 import FallBackUI from "./components/FallBackUI.jsx";
 import MovieDetails from "./pages/MovieDetails";
+import Register from "./pages/Register.jsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         </Route>
         {/* Add more Routes here like login, logout etc..*/}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </ErrorBoundary>
   );
