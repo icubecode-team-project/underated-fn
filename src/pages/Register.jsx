@@ -8,16 +8,22 @@ const Register = () =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
- 
+ const [isError,setIsError] = useState(false);
+ const [errorMessage,setErrorMessage]= useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();     
     // You can handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    const valid = registerValidation(email, password, confirmPassword) ;
-    console.log(valid)
+    
+    
+    const errorMsg = registerValidation({email, password, confirmPassword}) ;
+
+    if(errorMsg !== null){
+      setErrorMessage(errorMsg);
+      setIsError(true);
+
+    }
+    
   };
 
   return (
@@ -39,7 +45,7 @@ const Register = () =>{
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
+              required              
               autoComplete="current-email"  
             />
              < Link to='/' className="absolute top-10 left-10  ">
@@ -67,6 +73,12 @@ const Register = () =>{
               required
              autoComplete="current-password"
             />
+          </div>
+          <div >
+            {
+              isError &&  <p className='text-red-500 text-center text-lg'>{errorMessage}</p>
+            
+            }
           </div>
           <button
             type="submit"
