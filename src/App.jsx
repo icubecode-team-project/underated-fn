@@ -10,6 +10,7 @@ import { addMoviesList } from "./utils/movieSlice.js";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { OPTIONS } from "./assets/constants.js";
+import Register from "./pages/Register.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
         </Route>
         {/* Add more Routes here like login, logout etc..*/}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </ErrorBoundary>
   );
