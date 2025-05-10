@@ -2,18 +2,28 @@ import { IoMdArrowBack } from "react-icons/io";
 import React, { useState } from "react";
 import  logo from '../assets/icon-removebg.png';
 import {  Link, NavLink } from "react-router-dom";
-
+import { loginValidation } from "../utils/validation";
 
 const Login = () => {
      
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+   const [isError,setIsError] = useState(false);
+   const [errorMessage,setErrorMessage]= useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle login logic here
     console.log("Email:", email);
     console.log("Password:", password);
+
+     const errorMsg = loginValidation({email, password}) ;
+    
+        if(errorMsg !== null){
+          setErrorMessage(errorMsg);
+          setIsError(true);
+    
+        }
   };
 
   return (
@@ -53,6 +63,13 @@ const Login = () => {
              autoComplete="current-password"
             />
           </div>
+
+          <div >
+            {
+              isError &&  <p className='text-red-500 text-center text-lg'>{errorMessage}</p>
+            
+            }
+            </div>
           <button
             type="submit"
             className="w-full bg-green-500 font-bold text-white py-2 rounded-md "
@@ -70,7 +87,8 @@ const Login = () => {
 };
 
 
-
   
 
 export default Login;
+
+
