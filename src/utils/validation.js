@@ -12,3 +12,17 @@ export function registerValidation({ email, password, confirmPassword }) {
   if (password !== confirmPassword) return "Passwords do not match";
   return null;
 }
+
+
+export function loginValidation({ email, password }) {
+ 
+ 
+
+  const isEmailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  const isPasswordValid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/.test(password);
+
+  if (!isEmailValid) return "Invalid Email";
+  if (!isPasswordValid) return "Invalid Password";
+}
+
+
