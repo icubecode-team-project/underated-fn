@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import { geners } from "../assets/cardsData.js";
 import { POSTER_CDN } from "../assets/constants.js";
 import { FaStar } from "react-icons/fa";
