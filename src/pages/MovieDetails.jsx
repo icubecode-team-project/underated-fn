@@ -1,41 +1,22 @@
-import React from "react";
-import { useParams } from "react-router-dom";
 import { geners } from "../assets/cardsData.js";
 import { POSTER_CDN } from "../assets/constants.js";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { AiTwotoneLike } from "react-icons/ai";
 import { AiTwotoneDislike } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import RatingModel from "../components/RatingModel/index.jsx";
+import { openModel } from "../utils/modelSlice.js";
 
 //TODO -> need to fix vote count , imageURL and geners
 
 const MovieDetails = () => {
-  const { id } = useParams();
+  const dispatch = useDispatch();
 
-  console.log(id);
+  const movieDetails = useSelector((store) => store?.movies?.movieDetails);
 
-  const moviesList = useSelector((store) => store?.movies?.moviesList);
-
-  if (!moviesList) {
-    return null;
-  }
-
-  console.log(moviesList);
-
-  if (!moviesList || moviesList.length === 0) {
-    return "Loading...";
-  }
-
-  const movie = moviesList.find(
-    (movie) => movie._id === id || movie.id === parseInt(id)
-  );
-
-  if (!movie) {
-    return <p className="text-white">Movie not found</p>;
-  }
-
-  const { title, imageUrl, rating, description, releaseYear, type } = movie;
+  const { title, imageUrl, rating, description, releaseYear, type } =
+    movieDetails;
 
   return (
     <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center min-h-screen">
@@ -62,7 +43,10 @@ const MovieDetails = () => {
           <h1 className="text-xl uppercase tracking-widest text-[#fefefe]">
             Your Rating
           </h1>
-          <div className="flex flex-row justify-center items-center gap-2 text-2xl text-blue-500 font-bold cursor-pointer">
+          <div
+            className="flex flex-row justify-center items-center gap-2 text-2xl text-blue-500 font-bold cursor-pointer"
+            onClick={() => dispatch(openModel())}
+          >
             <FaRegStar />
             <p>Rate</p>
           </div>

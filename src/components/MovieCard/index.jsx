@@ -5,12 +5,18 @@ import { FaPlay } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { addMovieDetails } from "../../utils/movieSlice.js";
+import { useDispatch } from "react-redux";
 
 const MovieCard = ({ cardData }) => {
+  const dispatch = useDispatch();
   const { imageUrl, title, rating, releaseYear } = cardData;
 
   return (
-    <div className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative">
+    <div
+      className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative"
+      onClick={() => dispatch(addMovieDetails(cardData))}
+    >
       <Link
         to={`/movie/${cardData._id || cardData.id}`}
         className="cursor-pointer"
