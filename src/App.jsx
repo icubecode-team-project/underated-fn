@@ -12,6 +12,9 @@ import { useEffect } from "react";
 import { OPTIONS } from "./assets/constants.js";
 import Register from "./pages/Register.jsx";
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +25,7 @@ function App() {
 
   const getMovieDetails = async () => {
     const url = `${BACKEND_URI}/api/v1/movie/get/all-movies`;
+    const url = `${VITE_BACKEND_URI}/api/v1/movie/get/all-movies`;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
     console.log(data?.data?.movies);
@@ -40,6 +44,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
     </ErrorBoundary>
   );
 }
