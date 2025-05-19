@@ -25,7 +25,6 @@ function App() {
 
   const getMovieDetails = async () => {
     const url = `${BACKEND_URI}/api/v1/movie/get/all-movies`;
-    const url = `${VITE_BACKEND_URI}/api/v1/movie/get/all-movies`;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
     console.log(data?.data?.movies);
