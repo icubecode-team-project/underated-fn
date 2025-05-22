@@ -12,12 +12,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit triggred");
+    setIsLoading(true);
     const errorMsg = loginValidation({ email, password });
 
     if (errorMsg !== null) {
@@ -46,6 +47,8 @@ const Login = () => {
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -93,7 +96,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-green-500 font-bold text-white py-2 rounded-md "
           >
-            Log In
+            {isLoading ? "Loading..." : "Log In"}
           </button>
           <div>
             <p>
