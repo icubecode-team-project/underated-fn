@@ -1,12 +1,13 @@
 import { IoMdArrowBack } from "react-icons/io";
 import React, { useState } from "react";
 import logo from "../assets/icon-removebg.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { loginValidation } from "../utils/validation";
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 import Cookies from "js-cookie";
 import { loginUser, updateLogin } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +43,8 @@ const Login = () => {
       if (response.ok) {
         dispatch(loginUser(data?.data));
         dispatch(updateLogin());
+        toast.success("Login successful!");
+        navigate("/");
       }
     } catch (error) {
       console.error("Login error:", error);
