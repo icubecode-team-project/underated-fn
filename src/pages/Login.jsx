@@ -36,15 +36,15 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+
       if (response.ok) {
         toast.success("Login successful!");
         navigate("/");
       }
+      throw new Error(data.message || "Login failed");
     } catch (error) {
-      console.error("Login error:", error);
       setIsError(true);
-      setErrorMessage("An error occurred. Please try again.");
+      setErrorMessage(error.message);
     }
   };
 
