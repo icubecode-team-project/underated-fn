@@ -27,7 +27,7 @@ function App() {
     const url = `${BACKEND_URI}/api/v1/movie/get/all-movies`;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
-    console.log(data?.data?.movies);
+    // console.log(data?.data?.movies);
     dispatch(addMoviesList(data?.data?.movies));
   };
 
