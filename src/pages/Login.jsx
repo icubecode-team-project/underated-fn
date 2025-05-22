@@ -40,8 +40,9 @@ const Login = () => {
       if (response.ok) {
         toast.success("Login successful!");
         navigate("/");
+      } else {
+        throw new Error(data.message || "Login failed");
       }
-      throw new Error(data.message || "Login failed");
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
