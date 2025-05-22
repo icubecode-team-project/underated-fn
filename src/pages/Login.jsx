@@ -5,8 +5,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { loginValidation } from "../utils/validation";
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 import Cookies from "js-cookie";
-import { loginUser, updateLogin } from "../utils/userSlice";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -15,7 +13,6 @@ const Login = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -41,8 +38,6 @@ const Login = () => {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        dispatch(loginUser(data?.data));
-        dispatch(updateLogin());
         toast.success("Login successful!");
         navigate("/");
       }
