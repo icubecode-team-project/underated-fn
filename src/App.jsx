@@ -25,20 +25,22 @@ function App() {
 
   useEffect(() => {
     getMovieDetails();
-  }, []);
 
-  const token = Cookies.get("token");
+    //code to udpate the persistence of the user login
 
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      const { fullname } = decoded;
-      dispatch(loginUser({ fullname }));
-      dispatch(updateLogin());
-    } catch (error) {
-      console.error("Invalid token", error);
+    const token = Cookies.get("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const { fullname } = decoded;
+        dispatch(loginUser({ fullname }));
+        dispatch(updateLogin());
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
     }
-  }
+  }, []);
 
   const getMovieDetails = async () => {
     const url = `${BACKEND_URI}/api/v1/movie/get/all-movies`;

@@ -3,17 +3,27 @@ import { NavLink } from "react-router-dom"; // Import NavLink from react-router-
 import { FaBars } from "react-icons/fa"; // Import FaBars icon from react-icons
 import logo from "../assets/logo-icon-removebg.png"; // Your logo path
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux"; // Import useDispatch from react-redux
+import { loginUser, updateLogout } from "../utils/userSlice";
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle mobile menu
   const user = useSelector((state) => state?.user?.userObject); // Access user state from Redux store
   const isLoggedIn = useSelector((state) => state?.user?.isUserLogin); // Check if user is logged in
 
-  console.log(user);
-  console.log(isLoggedIn);
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Toggle the menu state
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    dispatch(updateLogout());
+    dispatch(loginUser(null));
+    toast.success("Logout successful!");
   };
 
   return (
@@ -29,7 +39,7 @@ const Header = () => {
         </div>
 
         {/* Navigation for desktop */}
-        <nav className="hidden lg:flex space-x-6 text-lg">
+        <nav className="hidden lg:flex space-x-6 text-lg flex justify-center items-center">
           <NavLink
             to="/"
             className="hover:text-gray-300"
@@ -51,8 +61,18 @@ const Header = () => {
           >
             Most Liked Movies
           </NavLink>
+          {isLoggedIn && (
+            <button
+              className="hover:text-gray-300 cursor-pointer"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          )}
           {isLoggedIn ? (
-            <div>{user?.fullname}</div>
+            <div className="text-[#222222] bg-[#fefefe] px-4 rounded-[30px] font-bold">
+              {user?.fullname}
+            </div>
           ) : (
             <NavLink
               to="/login"
@@ -65,7 +85,12 @@ const Header = () => {
         </nav>
 
         {/* Mobile menu button */}
-        <div className="lg:hidden">
+        <div className="lg:hidden flex items-center gap-3 ">
+          {isLoggedIn && (
+            <div className="text-[#222222] bg-[#fefefe] px-4 rounded-[30px] font-bold">
+              {user?.fullname}
+            </div>
+          )}
           <button onClick={toggleMenu} className="text-2xl">
             <FaBars className="text-white" /> {/* FontAwesome Hamburger icon */}
           </button>
@@ -96,8 +121,14 @@ const Header = () => {
           >
             Most Liked Movies
           </NavLink>
+
           {isLoggedIn ? (
-            <div>{user?.fullname}</div>
+            <button
+              className="block hover:text-gray-300 cursor-pointer"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
           ) : (
             <NavLink
               to="/login"
