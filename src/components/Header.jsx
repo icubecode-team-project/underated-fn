@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
 import { FaBars } from "react-icons/fa"; // Import FaBars icon from react-icons
-import logo from "../assets/icon.png"; // Your logo path
+import logo from "../assets/logo-icon-removebg.png"; // Your logo path
 import { useSelector } from "react-redux";
 
 const Header = () => {
@@ -16,15 +16,6 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen); // Toggle the menu state
   };
 
-  // Function to trigger the voice when logo is hovered
-  const speakLogoText = () => {
-    const msg = new SpeechSynthesisUtterance("I am Underated app");
-    msg.volume = 1; // Set the volume (0 to 1)
-    msg.rate = 1; // Speed of the voice (1 is normal speed)
-    msg.pitch = 1; // Pitch of the voice (1 is normal pitch)
-    window.speechSynthesis.speak(msg);
-  };
-
   return (
     <header className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -33,10 +24,8 @@ const Header = () => {
           <img
             src={logo}
             alt="Underated Logo"
-            className="w-12 h-12 mr-4 transition-transform duration-300 ease-in-out hover:filter hover:brightness-150"
-            onMouseEnter={speakLogoText} // Trigger speech on hover
+            className="w-auto h-14 mr-4 transition-transform duration-300 ease-in-out hover:filter hover:brightness-150"
           />
-          <h1 className="text-2xl font-bold">Underated</h1>
         </div>
 
         {/* Navigation for desktop */}
