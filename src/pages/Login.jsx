@@ -1,13 +1,13 @@
 import { IoMdArrowBack } from "react-icons/io";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/icon-removebg.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { loginValidation } from "../utils/validation";
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { loginUser, updateLogin } from "../utils/userSlice";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +18,13 @@ const Login = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

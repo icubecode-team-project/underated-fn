@@ -25,7 +25,10 @@ function App() {
 
   useEffect(() => {
     getMovieDetails();
+    updateLoginDetails();
+  }, []);
 
+  const updateLoginDetails = () => {
     const token = Cookies.get("token");
 
     if (token) {
@@ -38,7 +41,7 @@ function App() {
         console.error("Invalid token", error);
       }
     }
-  }, []);
+  };
 
   const getMovieDetails = async () => {
     const url = `${BACKEND_URI}/api/v1/movie/get/all-movies`;

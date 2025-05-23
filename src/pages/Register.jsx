@@ -6,6 +6,8 @@ import { registerValidation } from "../utils/validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -17,6 +19,13 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
