@@ -26,8 +26,6 @@ function App() {
   useEffect(() => {
     getMovieDetails();
 
-    //code to udpate the persistence of the user login
-
     const token = Cookies.get("token");
 
     if (token) {

@@ -6,6 +6,8 @@ import { loginValidation } from "../utils/validation";
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginUser, updateLogin } from "../utils/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +17,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +40,12 @@ const Login = () => {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
         toast.success("Login successful!");
+        dispatch(loginUser({ fullname: data?.data?.fullname }));
+        dispatch(updateLogin());
         navigate("/");
       } else {
         throw new Error(data.message || "Login failed");
