@@ -1,41 +1,45 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
 import { FaBars } from "react-icons/fa"; // Import FaBars icon from react-icons
-import logo from "../assets/icon.png"; // Your logo path
+import logo from "../assets/logo-icon-removebg.png"; // Your logo path
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux"; // Import useDispatch from react-redux
+import { loginUser, updateLogout } from "../utils/userSlice";
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle mobile menu
+  const user = useSelector((state) => state?.user?.userObject); // Access user state from Redux store
+  const isLoggedIn = useSelector((state) => state?.user?.isUserLogin); // Check if user is logged in
+
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Toggle the menu state
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  // Function to trigger the voice when logo is hovered
-  const speakLogoText = () => {
-    const msg = new SpeechSynthesisUtterance("I am Underated app");
-    msg.volume = 1; // Set the volume (0 to 1)
-    msg.rate = 1; // Speed of the voice (1 is normal speed)
-    msg.pitch = 1; // Pitch of the voice (1 is normal pitch)
-    window.speechSynthesis.speak(msg);
+  const handleLogout = () => {
+    Cookies.remove("token");
+    dispatch(updateLogout());
+    dispatch(loginUser(null));
+    toast.success("Logout successful!");
   };
 
   return (
     <header className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md">
-
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* Logo on the left with hover color change and voice trigger */}
         <div className="flex items-center">
           <img
             src={logo}
             alt="Underated Logo"
-            className="w-12 h-12 mr-4 transition-transform duration-300 ease-in-out hover:filter hover:brightness-150"
-            onMouseEnter={speakLogoText} // Trigger speech on hover
+            className="w-auto h-14 mr-4 transition-transform duration-300 ease-in-out hover:filter hover:brightness-150"
           />
-          <h1 className="text-2xl font-bold">Underated</h1>
         </div>
 
         {/* Navigation for desktop */}
-        <nav className="hidden lg:flex space-x-6 text-lg">
+        <nav className="hidden lg:flex space-x-6 text-lg flex justify-center items-center">
           <NavLink
             to="/"
             className="hover:text-gray-300"
@@ -57,17 +61,36 @@ const Header = () => {
           >
             Most Liked Movies
           </NavLink>
-          <NavLink
-            to="/login"
-            className="hover:text-gray-300"
-            activeClassName="text-yellow-500 underline" // Active class with underline
-          >
-            Login
-          </NavLink>
+          {isLoggedIn && (
+            <button
+              className="hover:text-gray-300 cursor-pointer"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          )}
+          {isLoggedIn ? (
+            <div className="text-[#222222] bg-[#fefefe] px-4 rounded-[30px] font-bold">
+              {user?.fullname}
+            </div>
+          ) : (
+            <NavLink
+              to="/login"
+              className="hover:text-gray-300"
+              activeClassName="text-yellow-500 underline" // Active class with underline
+            >
+              Login
+            </NavLink>
+          )}
         </nav>
 
         {/* Mobile menu button */}
-        <div className="lg:hidden">
+        <div className="lg:hidden flex items-center gap-3 ">
+          {isLoggedIn && (
+            <div className="text-[#222222] bg-[#fefefe] px-4 rounded-[30px] font-bold">
+              {user?.fullname}
+            </div>
+          )}
           <button onClick={toggleMenu} className="text-2xl">
             <FaBars className="text-white" /> {/* FontAwesome Hamburger icon */}
           </button>
@@ -77,9 +100,6 @@ const Header = () => {
       {/* Mobile menu (toggle visibility with isMenuOpen state) */}
       {isMenuOpen && (
         <div className="lg:hidden bg-[#222222] text-[#fefefe] px-6 py-4 space-y-4">
-
-
-
           <NavLink
             to="/"
             className="block hover:text-gray-300"
@@ -101,13 +121,23 @@ const Header = () => {
           >
             Most Liked Movies
           </NavLink>
-          <NavLink
-            to="/login"
-            className="block hover:text-gray-300"
-            activeClassName="text-yellow-500 underline" // Active class with underline
-          >
-            Login
-          </NavLink>
+
+          {isLoggedIn ? (
+            <button
+              className="block hover:text-gray-300 cursor-pointer"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <NavLink
+              to="/login"
+              className="block hover:text-gray-300"
+              activeClassName="text-yellow-500 underline" // Active class with underline
+            >
+              Login
+            </NavLink>
+          )}
         </div>
       )}
     </header>

@@ -10,6 +10,7 @@ const modelSlice = createSlice({
       state.showModel = !state.showModel;
     },
     openModel: (state) => {
+      console.log("openModel");
       state.showModel = true;
     },
     closeModel: (state) => {

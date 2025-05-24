@@ -15,19 +15,39 @@ const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+
+import { loginUser, updateLogin } from "./utils/userSlice.js";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     getMovieDetails();
+    updateLoginDetails();
   }, []);
+
+  const updateLoginDetails = () => {
+    const token = Cookies.get("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const { fullname } = decoded;
+        dispatch(loginUser({ fullname }));
+        dispatch(updateLogin());
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
+    }
+  };
 
   const getMovieDetails = async () => {
     const url = `${BACKEND_URI}/api/v1/movie/get/all-movies`;
     const response = await fetch(url, OPTIONS);
     const data = await response.json();
-    console.log(data?.data?.movies);
+    // console.log(data?.data?.movies);
     dispatch(addMoviesList(data?.data?.movies));
   };
 

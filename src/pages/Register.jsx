@@ -4,7 +4,10 @@ import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { registerValidation } from "../utils/validation";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -15,13 +18,19 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // You can handle login logic here
-    setIsError(false);
     setErrorMessage("");
-
     const errorMsg = registerValidation({
       fullName,
       email,
@@ -31,9 +40,9 @@ const Register = () => {
 
     if (errorMsg !== null) {
       setErrorMessage(errorMsg);
-      setIsError(false);
       toast.error("Error");
-      return; // stop execution if validation fails
+      setIsLoading(false);
+      return;
     }
 
     try {
@@ -53,19 +62,20 @@ const Register = () => {
         setIsError(true);
         setErrorMessage(json.message || "Registration failed");
         toast.error("Error");
-        setIsLoading(false);
         return;
       }
-      setIsLoading(false);
+
       toast.success("Registration successful!");
       setFullName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      navigate("/login");
     } catch (error) {
       setErrorMessage(error);
       setIsError(true);
       toast.error("Error");
+    } finally {
       setIsLoading(false);
     }
   };

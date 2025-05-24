@@ -7,6 +7,7 @@ import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { addMovieDetails } from "../../utils/movieSlice.js";
 import { useDispatch } from "react-redux";
+import { openModel } from "../../utils/modelSlice.js";
 
 const MovieCard = ({ cardData }) => {
   const dispatch = useDispatch();
@@ -38,7 +39,15 @@ const MovieCard = ({ cardData }) => {
           {rating}
         </p>
         <div className="">
-          <FaRegStar className="text-blue-500" />
+          <FaRegStar
+            className="text-blue-500 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              // Open the rating modal
+              dispatch(addMovieDetails(cardData));
+              dispatch(openModel());
+            }}
+          />
         </div>
         <div className="">
           <p>{releaseYear}</p>
