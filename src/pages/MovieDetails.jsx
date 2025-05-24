@@ -21,6 +21,7 @@ const MovieDetails = () => {
   const dispatch = useDispatch();
   const { id: movieId } = useParams();
   const isLoggedIn = useSelector((state) => state?.user?.isUserLogin);
+  const movieDetails = useSelector((store) => store?.movies?.movieDetails);
 
   useEffect(() => {
     const fetchAndSetMovie = async () => {
@@ -65,12 +66,16 @@ const MovieDetails = () => {
       const data = await response.json();
 
       // ✅ Update the movie's like count locally
-      console.log("Like response:", data);
+
       if (data.status === "Success" || data.status === "Updated") {
-        setMovie((prevMovie) => ({
-          ...prevMovie,
-          like: (prevMovie.like || 0) + 1,
-        }));
+        setMovie((prevMovie) => {
+          const updatedMovie = {
+            ...prevMovie,
+            like: (prevMovie.like || 0) + 1,
+          };
+          dispatch(addMovieDetails(updatedMovie));
+          return updatedMovie;
+        });
       }
     } catch (error) {
       console.error("Error liking the movie:", error);
@@ -105,10 +110,14 @@ const MovieDetails = () => {
 
       // ✅ Update the movie's like count locally
       if (data.status === "Success" || data.status === "Updated") {
-        setMovie((prevMovie) => ({
-          ...prevMovie,
-          like: (prevMovie.like || 0) - 1,
-        }));
+        setMovie((prevMovie) => {
+          const updatedMovie = {
+            ...prevMovie,
+            like: (prevMovie.like || 0) - 1,
+          };
+          dispatch(addMovieDetails(updatedMovie));
+          return updatedMovie;
+        });
       }
     } catch (error) {
       console.error("Error disliking the movie:", error);
@@ -130,7 +139,7 @@ const MovieDetails = () => {
       <div className="text-white flex flex-row gap-6 items-start w-[60vw]">
         <div className="flex-grow flex flex-col justify-start items-start gap-2 ">
           <h1 className="text-3xl">{movie?.title}</h1>
-          <p>{movie?.releaseYear}</p>
+          <p>{movieDetails?.releaseYear}</p>
         </div>
 
         <div className="flex flex-col justify-start items-start gap-2 ">
@@ -140,8 +149,8 @@ const MovieDetails = () => {
           <div className="flex flex-row gap-2 items-center">
             <FaStar className="text-3xl text-yellow-500" />
             <div>
-              <p className="text-2xl">{movie?.rating}</p>
-              <p>{movie?.voteCount || "vote count"}</p>
+              <p className="text-2xl">{movieDetails?.rating}</p>
+              <p>{movieDetails?.voteCount || "vote count"}</p>
             </div>
           </div>
         </div>
@@ -162,7 +171,7 @@ const MovieDetails = () => {
 
       <div className="flex flex-row justify-center w-[60vw] relative">
         <img
-          src={POSTER_CDN + movie?.imageUrl}
+          src={POSTER_CDN + movieDetails?.imageUrl}
           alt="movie poster"
           className="w-[40vw] rounded-lg"
         />
@@ -170,7 +179,7 @@ const MovieDetails = () => {
 
       <div className="flex justify-between w-[60vw]">
         <div className="flex flex-row justify-start items-start gap-2 pt-4">
-          {(movie?.type ? JSON.parse(movie?.type) : []).map(
+          {(movieDetails?.type ? JSON.parse(movieDetails?.type) : []).map(
             (genreId, index) => {
               const genreName = geners.find((g) => g.id == genreId)?.name;
               return genreName ? (
@@ -188,7 +197,7 @@ const MovieDetails = () => {
         <div className="flex flex-row items-center gap-4 cursor-pointer">
           <div className="text-white flex flex-col items-center">
             <p className="font-bold">Likes</p>
-            <p>{movie?.like}</p>
+            <p>{movieDetails?.like}</p>
           </div>
 
           {/* Like button with transition */}
@@ -244,7 +253,7 @@ const MovieDetails = () => {
       </div>
 
       <div className="pb-6 pt-4 w-[60vw]">
-        <p className="text-white pr-12">{movie?.description}</p>
+        <p className="text-white pr-12">{movieDetails?.description}</p>
       </div>
     </div>
   );

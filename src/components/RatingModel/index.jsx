@@ -3,6 +3,7 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModel } from "../../utils/modelSlice";
 import ReactDOM from "react-dom";
+import { addMovieDetails } from "../../utils/movieSlice";
 
 const RatingModel = () => {
   const dispatch = useDispatch();
@@ -12,8 +13,47 @@ const RatingModel = () => {
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const [movie, setMovie] = useState(movieDetails);
 
   const isLoggedIn = useSelector((store) => store?.user?.isUserLogin);
+
+  const movieId = movieDetails?._id;
+
+  const handleRating = async (value) => {
+    try {
+      setRating(value);
+      const url = `${import.meta.env.VITE_BACKEND_URI}/api/v1/movie/rate`;
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ movieId, rating: value }),
+      };
+
+      const response = await fetch(url, options);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Rating submitted successfully:", data);
+        dispatch(closeModel());
+        // Update the movie details with the new rating
+        setMovie((prev) => ({
+          ...prev,
+          rating: value,
+        }));
+
+        // Optionally, you can also update the movie details in the Redux store
+        dispatch(addMovieDetails({ ...movieDetails, rating: value }));
+      } else {
+        console.error("Error submitting rating:", data);
+      }
+    } catch (error) {
+      console.error("Error in handleRating:", error);
+    }
+  };
 
   // Close on outside click
   useEffect(() => {
@@ -62,7 +102,8 @@ const RatingModel = () => {
               {[1, 2, 3, 4, 5].map((each) => (
                 <span
                   key={each}
-                  onClick={() => setRating(each)}
+                  onClick={() => handleRating(each)}
+                  className="cursor-pointer"
                   onMouseEnter={() => setHover(each)}
                   onMouseLeave={() => setHover(0)}
                 >

@@ -36,7 +36,7 @@ const MovieCard = ({ cardData }) => {
       <div className="px-2 flex flex-row justify-between items-center">
         <p className="flex items-center gap-1 text-[#fefefe]">
           <FaStar className="text-yellow-500" />
-          {rating}
+          {Math.round(rating * 10) / 10 || "0"}
         </p>
         <div className="">
           <FaRegStar
