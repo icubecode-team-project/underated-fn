@@ -84,7 +84,7 @@ const RatingModel = () => {
           </div>
         ) : (
           <h1 className="text-yellow-500 text-3xl  font-bold text-center pb-10">
-            Please log in to rate this movie
+            Please log in to Like or rate this movie
           </h1>
         )}
       </div>
