@@ -9,7 +9,7 @@ import MovieDetails from "./pages/MovieDetails";
 import { addMoviesList } from "./utils/movieSlice.js";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { OPTIONS } from "./assets/constants.js";
+import { OPTIONS } from "./utils/constants.js";
 import Register from "./pages/Register.jsx";
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const VITE_BACKEND_URI = import.meta.env.VITE_BACKEND_URI;

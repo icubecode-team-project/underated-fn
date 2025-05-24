@@ -8,7 +8,7 @@ const TOKEN =
 export const OPTIONS = {
   method: "GET",
   headers: {
-    Authorization: "Bearer " + TOKEN,
     "Content-Type": "application/json",
   },
+  credentials: "include",
 };
