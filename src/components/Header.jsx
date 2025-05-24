@@ -40,7 +40,7 @@ const Header = () => {
         </div>
 
         {/* Navigation for desktop */}
-        <nav className="hidden lg:flex space-x-6 text-lg flex justify-center items-center">
+        <nav className="hidden lg:flex space-x-6 text-lg  justify-center items-center">
           <NavLink
             to="/"
             className="hover:text-gray-300"
