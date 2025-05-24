@@ -20,7 +20,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies.get("jwt_token");
     if (token) {
       navigate("/");
     }
@@ -47,12 +47,14 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+
+      console.log("Login response:", data);
 
       if (response.ok) {
         toast.success("Login successful!");
-        dispatch(loginUser({ fullname: data?.data?.fullname }));
+        dispatch(loginUser({ userName: data?.data?.fullname }));
         dispatch(updateLogin());
+        Cookies.set("jwt_token", data.token, { expires: 7 }); // set manually
         navigate("/");
       } else {
         throw new Error(data.message || "Login failed");

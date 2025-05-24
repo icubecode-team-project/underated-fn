@@ -21,6 +21,7 @@ const Header = () => {
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("jwt_token");
     dispatch(updateLogout());
     dispatch(loginUser(null));
     toast.success("Logout successful!");
@@ -71,7 +72,7 @@ const Header = () => {
           )}
           {isLoggedIn ? (
             <div className="text-[#222222] bg-[#fefefe] px-4 rounded-[30px] font-bold">
-              {user?.fullname}
+              {user?.userName}
             </div>
           ) : (
             <NavLink
@@ -88,7 +89,7 @@ const Header = () => {
         <div className="lg:hidden flex items-center gap-3 ">
           {isLoggedIn && (
             <div className="text-[#222222] bg-[#fefefe] px-4 rounded-[30px] font-bold">
-              {user?.fullname}
+              {user?.userName}
             </div>
           )}
           <button onClick={toggleMenu} className="text-2xl">
