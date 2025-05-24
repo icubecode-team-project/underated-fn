@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { addMovieDetails } from "../utils/movieSlice.js";
 import { fetchMovies } from "../utils/hooks.js";
+import { ClipLoader } from "react-spinners";
 
 const MovieDetails = () => {
   const [likeStatus, setLikeStatus] = useState("Neutral"); // "Liked", "Disliked", "Neutral"
@@ -16,12 +17,14 @@ const MovieDetails = () => {
   const [dislikeLoading, setDislikeLoading] = useState(false);
   const [movie, setMovie] = useState({});
   const [noMoviesFound, setNoMoviesFound] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
   const dispatch = useDispatch();
   const { id: movieId } = useParams();
   const isLoggedIn = useSelector((state) => state?.user?.isUserLogin);
 
   useEffect(() => {
     const fetchAndSetMovie = async () => {
+      setPageLoading(true);
       const moviesList = await fetchMovies();
       const foundMovie = moviesList.find(
         (m) => m._id === movieId || m.id === movieId
@@ -32,6 +35,7 @@ const MovieDetails = () => {
       } else {
         setNoMoviesFound(true);
       }
+      setPageLoading(false);
     };
 
     fetchAndSetMovie();
@@ -113,6 +117,13 @@ const MovieDetails = () => {
       setDislikeLoading(false);
     }
   };
+
+  const renderLoading = () => (
+    <div className="w-full bg-[#222222] px-12 flex flex-col justify-center gap-3 items-center min-h-[60vh]">
+      <ClipLoader color="#36d7b7" size={50} loading={true} />
+    </div>
+  );
+  if (pageLoading) return renderLoading();
 
   const renderRating = () => (
     <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center min-h-screen">
