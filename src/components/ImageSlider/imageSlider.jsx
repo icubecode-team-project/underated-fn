@@ -11,7 +11,7 @@ const ImageSlider = () => {
 
   return (
     <div className=" bg-[#222222]">
-      <div className="w-[60%] m-auto min-h-[300px]">
+      <div className="w-[90%] md:w-[80%] m-auto min-h-[300px]">
         <Carousel slides={slides} />
       </div>
     </div>

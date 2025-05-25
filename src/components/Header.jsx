@@ -31,13 +31,13 @@ const Header = () => {
     <header className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* Logo on the left with hover color change and voice trigger */}
-        <div className="flex items-center">
+        <NavLink to="/" className="flex items-center">
           <img
             src={logo}
-            alt="Underated Logo"
-            className="w-auto h-14 mr-4 transition-transform duration-300 ease-in-out hover:filter hover:brightness-150"
+            alt="Underrated Logo"
+            className="h-8 md:h-14 w-auto mr-4 transition-transform duration-300 ease-in-out hover:filter hover:brightness-150"
           />
-        </div>
+        </NavLink>
 
         {/* Navigation for desktop */}
         <nav className="hidden lg:flex space-x-6 text-lg  justify-center items-center">

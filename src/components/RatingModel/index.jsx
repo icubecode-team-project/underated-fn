@@ -3,7 +3,7 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModel } from "../../utils/modelSlice";
 import ReactDOM from "react-dom";
-import { addMovieDetails } from "../../utils/movieSlice";
+import { addMovieDetails, addMoviesList } from "../../utils/movieSlice";
 import { ClipLoader } from "react-spinners";
 
 const RatingModel = () => {
@@ -12,6 +12,7 @@ const RatingModel = () => {
   const dispatch = useDispatch();
   const modalRef = useRef();
   const movieDetails = useSelector((store) => store?.movies?.movieDetails);
+  const moviesList = useSelector((store) => store?.movies?.moviesList);
   const showModel = useSelector((store) => store?.model?.showModel);
 
   const [rating, setRating] = useState(0);
@@ -43,16 +44,25 @@ const RatingModel = () => {
       if (response.ok) {
         dispatch(closeModel());
 
-        dispatch(
-          addMovieDetails({
-            ...movieDetails,
-            rating:
-              (movieDetails.rating * movieDetails.ratingCount + value) /
-              (movieDetails.ratingCount + 1),
-            ratingUserData: [userId, ...movieDetails.ratingUserData],
-            ratingCount: movieDetails.ratingCount + 1,
-          })
+        const updatedMovie = {
+          ...movieDetails,
+          rating:
+            (movieDetails.rating * movieDetails.ratingCount + value) /
+            (movieDetails.ratingCount + 1),
+          ratingUserData: [userId, ...movieDetails.ratingUserData],
+          ratingCount: movieDetails.ratingCount + 1,
+        };
+
+        // Update movieDetails in the store
+        dispatch(addMovieDetails(updatedMovie));
+
+        // Update only the matching movie in moviesList
+        const updatedMoviesList = moviesList.map((movie) =>
+          movie._id === movieId ? updatedMovie : movie
         );
+
+        // Update moviesList in the store
+        dispatch(addMoviesList(updatedMoviesList));
       } else {
         console.error("Error submitting rating:", data);
       }
@@ -131,7 +141,7 @@ const RatingModel = () => {
   return ReactDOM.createPortal(
     <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50">
       {/* Star outside the modal box */}
-      <div className="absolute top-38 z-2">
+      <div className="absolute top-46 md:top-46 z-2">
         <FaStar className="text-blue-500 text-6xl drop-shadow-md" />
       </div>
 
@@ -139,7 +149,7 @@ const RatingModel = () => {
 
       <div
         ref={modalRef}
-        className="bg-[#222222] pt-16 pb-6 px-6 rounded-lg shadow-lg w-[90%] max-w-md relative flex flex-col justify-center items-center min-h-54"
+        className="bg-[#222222]  rounded-lg shadow-lg w-[90%] max-w-md relative flex flex-col justify-center items-center min-h-54"
       >
         {isLoggedIn ? (
           isLoading ? (
