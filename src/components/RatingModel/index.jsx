@@ -13,13 +13,14 @@ const RatingModel = () => {
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const [movie, setMovie] = useState(movieDetails);
+  const [isRated, setIsRated] = useState(false);
 
   const isLoggedIn = useSelector((store) => store?.user?.isUserLogin);
 
   const movieId = movieDetails?._id;
 
   const handleRating = async (value) => {
+    if (isRated) return;
     try {
       setRating(value);
       const url = `${import.meta.env.VITE_BACKEND_URI}/api/v1/movie/rate`;
@@ -39,14 +40,16 @@ const RatingModel = () => {
       if (response.ok) {
         console.log("Rating submitted successfully:", data);
         dispatch(closeModel());
-        // Update the movie details with the new rating
-        setMovie((prev) => ({
-          ...prev,
-          rating: value,
-        }));
 
         // Optionally, you can also update the movie details in the Redux store
-        dispatch(addMovieDetails({ ...movieDetails, rating: value }));
+        setIsRated(true);
+        dispatch(
+          addMovieDetails({
+            ...movieDetails,
+            rating:
+              (movieDetails?.rating + value) / (movieDetails?.ratingCount + 1),
+          })
+        );
       } else {
         console.error("Error submitting rating:", data);
       }

@@ -22,6 +22,15 @@ const MovieDetails = () => {
   const { id: movieId } = useParams();
   const isLoggedIn = useSelector((state) => state?.user?.isUserLogin);
   const movieDetails = useSelector((store) => store?.movies?.movieDetails);
+  const user = useSelector((store) => store?.user?.user);
+  const userId = user?._id;
+
+  const isLiked = movieDetails?.userLikeData?.find(
+    (each) => each.userId === userId
+  );
+  const isDisliked = movieDetails?.userDisLikeData?.find(
+    (each) => each.userId === userId
+  );
 
   useEffect(() => {
     const fetchAndSetMovie = async () => {
@@ -42,12 +51,21 @@ const MovieDetails = () => {
     fetchAndSetMovie();
   }, [movieId]);
 
+  useEffect(() => {
+    if (isLiked) {
+      setLikeStatus("Liked");
+    } else if (isDisliked) {
+      setLikeStatus("Disliked");
+    } else {
+      setLikeStatus("Neutral");
+    }
+  }, [isLiked, isDisliked]);
+
   const handleLike = async () => {
     if (!isLoggedIn) return dispatch(openModel());
 
     if (likeStatus === "Liked") return;
 
-    // Optimistic update
     setLikeStatus("Liked");
     setLikeLoading(true);
 
@@ -65,8 +83,6 @@ const MovieDetails = () => {
       );
       const data = await response.json();
 
-      // ✅ Update the movie's like count locally
-
       if (data.status === "Success" || data.status === "Updated") {
         setMovie((prevMovie) => {
           const updatedMovie = {
@@ -79,7 +95,7 @@ const MovieDetails = () => {
       }
     } catch (error) {
       console.error("Error liking the movie:", error);
-      setLikeStatus("Neutral"); // Revert on error
+      setLikeStatus("Neutral");
     } finally {
       setLikeLoading(false);
     }
@@ -90,7 +106,6 @@ const MovieDetails = () => {
 
     if (likeStatus === "Disliked") return;
 
-    // Optimistic update
     setLikeStatus("Disliked");
     setDislikeLoading(true);
 
@@ -108,7 +123,6 @@ const MovieDetails = () => {
       );
       const data = await response.json();
 
-      // ✅ Update the movie's like count locally
       if (data.status === "Success" || data.status === "Updated") {
         setMovie((prevMovie) => {
           const updatedMovie = {
@@ -121,7 +135,7 @@ const MovieDetails = () => {
       }
     } catch (error) {
       console.error("Error disliking the movie:", error);
-      setLikeStatus("Neutral"); // Revert on error
+      setLikeStatus("Neutral");
     } finally {
       setDislikeLoading(false);
     }
@@ -149,8 +163,10 @@ const MovieDetails = () => {
           <div className="flex flex-row gap-2 items-center">
             <FaStar className="text-3xl text-yellow-500" />
             <div>
-              <p className="text-2xl">{movieDetails?.rating}</p>
-              <p>{movieDetails?.voteCount || "vote count"}</p>
+              <p className="text-2xl">
+                {Math.round(movieDetails?.rating * 10) / 10}
+              </p>
+              <p>{movieDetails?.ratingCount + " ratings" || "vote count"}</p>
             </div>
           </div>
         </div>
@@ -200,7 +216,7 @@ const MovieDetails = () => {
             <p>{movieDetails?.like}</p>
           </div>
 
-          {/* Like button with transition */}
+          {/* Like button */}
           <div
             className="text-white flex flex-col items-center transition-transform duration-300 ease-in-out"
             onClick={handleLike}
@@ -224,7 +240,7 @@ const MovieDetails = () => {
             )}
           </div>
 
-          {/* Dislike button with transition */}
+          {/* Dislike button */}
           <div
             className="text-white flex flex-col items-center transition-transform duration-300 ease-in-out"
             onClick={handleDislike}
@@ -237,9 +253,7 @@ const MovieDetails = () => {
               >
                 <AiTwotoneDislike className="text-2xl text-blue-500 scale-110" />
                 <p className="text-blue-500">
-                  {dislikeLoading && "animate-pulse"
-                    ? "Disliking..."
-                    : "Disliked"}
+                  {dislikeLoading ? "Disliking..." : "Disliked"}
                 </p>
               </div>
             ) : (
