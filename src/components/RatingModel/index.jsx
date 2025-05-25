@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeModel } from "../../utils/modelSlice";
 import ReactDOM from "react-dom";
 import { addMovieDetails } from "../../utils/movieSlice";
+import { ClipLoader } from "react-spinners";
 
 const RatingModel = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const modalRef = useRef();
   const movieDetails = useSelector((store) => store?.movies?.movieDetails);
@@ -13,15 +16,15 @@ const RatingModel = () => {
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const [isRated, setIsRated] = useState(false);
 
   const isLoggedIn = useSelector((store) => store?.user?.isUserLogin);
+  const userId = useSelector((store) => store?.user?.userObject?.id);
 
   const movieId = movieDetails?._id;
 
   const handleRating = async (value) => {
-    if (isRated) return;
     try {
+      setIsLoading(true);
       setRating(value);
       const url = `${import.meta.env.VITE_BACKEND_URI}/api/v1/movie/rate`;
       const options = {
@@ -38,16 +41,16 @@ const RatingModel = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Rating submitted successfully:", data);
         dispatch(closeModel());
 
-        // Optionally, you can also update the movie details in the Redux store
-        setIsRated(true);
         dispatch(
           addMovieDetails({
             ...movieDetails,
             rating:
-              (movieDetails?.rating + value) / (movieDetails?.ratingCount + 1),
+              (movieDetails.rating * movieDetails.ratingCount + value) /
+              (movieDetails.ratingCount + 1),
+            ratingUserData: [userId, ...movieDetails.ratingUserData],
+            ratingCount: movieDetails.ratingCount + 1,
           })
         );
       } else {
@@ -55,6 +58,8 @@ const RatingModel = () => {
       }
     } catch (error) {
       console.error("Error in handleRating:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,6 +87,47 @@ const RatingModel = () => {
 
   if (!movieDetails || !showModel) return null;
 
+  const renderRatingStars = () => {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <h2 className="text-xl text-white font-bold mb-4">
+          Rate: {movieDetails.title}
+        </h2>
+
+        <div className="flex justify-center items-center gap-2">
+          {[1, 2, 3, 4, 5].map((each) => (
+            <span
+              key={each}
+              onClick={() => handleRating(each)}
+              className="cursor-pointer"
+              onMouseEnter={() => setHover(each)}
+              onMouseLeave={() => setHover(0)}
+            >
+              {(hover || rating) >= each ? (
+                <FaStar className="text-yellow-400 text-2xl cursor-pointer" />
+              ) : (
+                <FaRegStar className="text-white text-2xl cursor-pointer" />
+              )}
+            </span>
+          ))}
+        </div>
+
+        <button
+          className="mt-6 bg-gray-500 hover:bg-blue-500 text-white px-20 py-2 rounded"
+          onClick={() => dispatch(closeModel())}
+        >
+          Close
+        </button>
+      </div>
+    );
+  };
+
+  const renderLoading = () => (
+    <div className="w-full bg-[#222222] px-12 flex flex-col justify-center gap-3 items-center ">
+      <ClipLoader color="#36d7b7" size={50} loading={true} />
+    </div>
+  );
+
   return ReactDOM.createPortal(
     <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50">
       {/* Star outside the modal box */}
@@ -96,36 +142,11 @@ const RatingModel = () => {
         className="bg-[#222222] pt-16 pb-6 px-6 rounded-lg shadow-lg w-[90%] max-w-md relative flex flex-col justify-center items-center min-h-54"
       >
         {isLoggedIn ? (
-          <div className="flex flex-col justify-center items-center">
-            <h2 className="text-xl text-white font-bold mb-4">
-              Rate: {movieDetails.title}
-            </h2>
-
-            <div className="flex justify-center items-center gap-2">
-              {[1, 2, 3, 4, 5].map((each) => (
-                <span
-                  key={each}
-                  onClick={() => handleRating(each)}
-                  className="cursor-pointer"
-                  onMouseEnter={() => setHover(each)}
-                  onMouseLeave={() => setHover(0)}
-                >
-                  {(hover || rating) >= each ? (
-                    <FaStar className="text-yellow-400 text-2xl cursor-pointer" />
-                  ) : (
-                    <FaRegStar className="text-white text-2xl cursor-pointer" />
-                  )}
-                </span>
-              ))}
-            </div>
-
-            <button
-              className="mt-6 bg-gray-500 hover:bg-blue-500 text-white px-20 py-2 rounded"
-              onClick={() => dispatch(closeModel())}
-            >
-              Close
-            </button>
-          </div>
+          isLoading ? (
+            renderLoading()
+          ) : (
+            renderRatingStars()
+          )
         ) : (
           <h1 className="text-yellow-500 text-3xl  font-bold text-center pb-10">
             Please log in to Like or rate this movie

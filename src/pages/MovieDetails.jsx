@@ -22,15 +22,16 @@ const MovieDetails = () => {
   const { id: movieId } = useParams();
   const isLoggedIn = useSelector((state) => state?.user?.isUserLogin);
   const movieDetails = useSelector((store) => store?.movies?.movieDetails);
-  const user = useSelector((store) => store?.user?.user);
-  const userId = user?._id;
+  const user = useSelector((store) => store?.user?.userObject);
 
-  const isLiked = movieDetails?.userLikeData?.find(
-    (each) => each.userId === userId
-  );
+  const userId = user?.id;
+
+  const isLiked = movieDetails?.userLikeData?.find((each) => each === userId);
+
   const isDisliked = movieDetails?.userDisLikeData?.find(
-    (each) => each.userId === userId
+    (each) => each === userId
   );
+  const isRated = movieDetails?.ratingUserData?.find((each) => each === userId);
 
   useEffect(() => {
     const fetchAndSetMovie = async () => {
@@ -175,13 +176,20 @@ const MovieDetails = () => {
           <h1 className="text-xl uppercase tracking-widest text-[#fefefe]">
             Your Rating
           </h1>
-          <div
-            className="flex flex-row justify-center items-center gap-2 text-2xl text-blue-500 font-bold cursor-pointer"
-            onClick={() => dispatch(openModel())}
-          >
-            <FaRegStar />
-            <p>Rate</p>
-          </div>
+          {isRated ? (
+            <div className="flex flex-row justify-center items-center gap-2 text-md text-green-500 font-bold cursor-not-allowed opacity-50">
+              <FaRegStar />
+              <p>Rating Submitted</p>
+            </div>
+          ) : (
+            <div
+              className="flex flex-row justify-center items-center gap-2 text-2xl text-green-500 font-bold cursor-pointer"
+              onClick={() => dispatch(openModel())}
+            >
+              <FaRegStar />
+              <p>Rate</p>
+            </div>
+          )}
         </div>
       </div>
 

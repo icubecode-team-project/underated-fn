@@ -30,8 +30,8 @@ function App() {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        const { userName } = decoded;
-        dispatch(loginUser({ userName }));
+        const { userName, id } = decoded;
+        dispatch(loginUser({ userName, id }));
         dispatch(updateLogin());
       } catch (error) {
         console.error("Invalid token", error);
