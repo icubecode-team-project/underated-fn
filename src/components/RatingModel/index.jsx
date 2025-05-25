@@ -158,7 +158,7 @@ const RatingModel = () => {
             renderRatingStars()
           )
         ) : (
-          <h1 className="text-yellow-500 text-3xl  font-bold text-center pb-10">
+          <h1 className="text-yellow-500 text-3xl px-3  font-bold text-center pb-10">
             Please log in to Like or rate this movie
           </h1>
         )}
