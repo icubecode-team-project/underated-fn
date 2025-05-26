@@ -1,4 +1,4 @@
-import { POSTER_CDN } from "../../assets/constants";
+import { POSTER_CDN } from "../../utils/constants.js";
 import { FaStar } from "react-icons/fa";
 import { IoTicket } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa";

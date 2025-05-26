@@ -3,9 +3,17 @@ import React from "react";
 import MovieCard from "../MovieCard/index.jsx";
 import { FaGreaterThan } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 
 const MovieCards = () => {
   const moviesList = useSelector((store) => store?.movies?.moviesList);
+
+  const renderLoading = () => (
+    <div className="w-full bg-[#222222] px-12 flex flex-col justify-center gap-3 items-center min-h-[40vh]">
+      <ClipLoader color="#36d7b7" size={50} loading={true} />
+    </div>
+  );
+  if (moviesList.length === 0) return renderLoading();
 
   return (
     <div className="pt-10 bg-[#222222]">
