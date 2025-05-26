@@ -40,7 +40,8 @@ const Register = () => {
 
     if (errorMsg !== null) {
       setErrorMessage(errorMsg);
-      toast.error("Error");
+      setIsError(true); // ← Add this
+      toast.error(errorMsg); // Show specific error
       setIsLoading(false);
       return;
     }

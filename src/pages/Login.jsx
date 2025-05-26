@@ -34,6 +34,9 @@ const Login = () => {
     if (errorMsg !== null) {
       setErrorMessage(errorMsg);
       setIsError(true);
+      toast.error(errorMsg);
+      setIsLoading(false);
+      return;
     }
 
     try {

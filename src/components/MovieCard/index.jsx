@@ -6,16 +6,21 @@ import { FaPlus } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { addMovieDetails } from "../../utils/movieSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModel } from "../../utils/modelSlice.js";
 
 const MovieCard = ({ cardData }) => {
   const dispatch = useDispatch();
-  const { imageUrl, title, rating, releaseYear } = cardData;
+  const { imageUrl, title, rating, releaseYear, _id } = cardData;
+
+  const userId = useSelector((store) => store?.user?.userObject?.id);
+  const moviesList = useSelector((store) => store?.movies?.moviesList);
+  const movieDetails = moviesList.find((movie) => movie._id === _id);
+  const isRated = movieDetails?.ratingUserData.includes(userId);
 
   return (
     <div
-      className="w-[180px] bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative"
+      className="w-[150px] md:w-[180px]  bg-[#2f2f2f] flex flex-col rounded-lg shadow  text-white relative "
       onClick={() => dispatch(addMovieDetails(cardData))}
     >
       <Link
@@ -24,7 +29,7 @@ const MovieCard = ({ cardData }) => {
       >
         <div>
           <img
-            className="w-[180px] h-[270px] rounded-lg"
+            className="w-[180px] h-[200px] md:h-[270px] rounded-lg"
             src={POSTER_CDN + imageUrl}
             alt="poster-image"
           />
@@ -34,32 +39,36 @@ const MovieCard = ({ cardData }) => {
         <FaPlus />
       </div>
       <div className="px-2 flex flex-row justify-between items-center">
-        <p className="flex items-center gap-1 text-[#fefefe]">
+        <p className="flex items-center gap-1 text-[#fefefe] text-sm md:text-auto">
           <FaStar className="text-yellow-500" />
-          {rating}
+          {Math.round(rating * 10) / 10 || "0"}
         </p>
         <div className="">
-          <FaRegStar
-            className="text-blue-500 cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Open the rating modal
-              dispatch(addMovieDetails(cardData));
-              dispatch(openModel());
-            }}
-          />
+          {isRated ? (
+            <FaStar className="text-blue-500" />
+          ) : (
+            <FaRegStar
+              className="text-blue-500 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Open the rating modal
+                dispatch(addMovieDetails(cardData));
+                dispatch(openModel());
+              }}
+            />
+          )}
         </div>
         <div className="">
           <p>{releaseYear}</p>
         </div>
       </div>
-      <p className="px-2 truncate  font-bold">{title}</p>
+      <p className="px-2 truncate  font-bold text-sm md:text-auto">{title}</p>
       <div className="flex flex-col items-center gap-1 p-2">
-        <button className="flex items-center gap-2 py-2 px-6 bg-[#3f3f3f] rounded-lg text-blue-500 cursor-pointer">
+        <button className="flex items-center gap-2 py-1 md:py-2 px-6 bg-[#3f3f3f] rounded-lg text-blue-500 cursor-pointer text-sm">
           <IoTicket />
           Show Times
         </button>
-        <button className="flex items-center gap-1 py-2 px-6 rounded-lg cursor-pointer">
+        <button className="flex items-center gap-1 py-2 px-6 rounded-lg cursor-pointer text-sm">
           <FaPlay />
           Trailer
         </button>

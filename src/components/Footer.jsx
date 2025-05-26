@@ -1,5 +1,3 @@
-
-
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import Icon from "../assets/icon.png";
@@ -8,13 +6,22 @@ import { RxCrossCircled } from "react-icons/rx";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md">
+    <footer className="bg-[#222222] text-[#fefefe] py-4 px-6 shadow-md ">
       <div className="max-w-6xl mx-auto px-4">
-
         {/* Second Row - 5 items */}
-        <div className="flex justify-center flex-wrap gap-6 mb-4 text-sm">
-          {["Help", "Site Index", "UnderatedPro", "Box Office Mojo", "License Underated Data"].map((text) => (
-            <a key={text} href="#" className="hover:text-white flex items-center">
+        <div className="flex justify-center flex-wrap gap-2 md:gap-6 mb-4 text-sm">
+          {[
+            "Help",
+            "Site Index",
+            "UnderatedPro",
+            "Box Office Mojo",
+            "License Underated Data",
+          ].map((text) => (
+            <a
+              key={text}
+              href="#"
+              className="hover:text-white flex items-center"
+            >
               {text}
               <FaArrowUpRightFromSquare className="ml-1 text-xs" />
             </a>
@@ -22,12 +29,22 @@ const Footer = () => {
         </div>
 
         {/* Third Row - 6 items */}
-        <div className="flex justify-center flex-wrap gap-6 mb-4 text-sm">
-          <a href="#" className="hover:text-white flex items-center">Press Room</a>
-          <a href="#" className="hover:text-white flex items-center">Advertising <FaArrowUpRightFromSquare className="ml-1 text-xs" /></a>
-          <a href="#" className="hover:text-white flex items-center">Jobs <FaArrowUpRightFromSquare className="ml-1 text-xs" /></a>
-          <a href="#" className="hover:text-white flex items-center">Conditions of Use</a>
-          <a href="#" className="hover:text-white flex items-center">Privacy Policy</a>
+        <div className="flex justify-center flex-wrap gap-2 md:gap-6 mb-4 text-sm">
+          <a href="#" className="hover:text-white flex items-center">
+            Press Room
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Advertising <FaArrowUpRightFromSquare className="ml-1 text-xs" />
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Jobs <FaArrowUpRightFromSquare className="ml-1 text-xs" />
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Conditions of Use
+          </a>
+          <a href="#" className="hover:text-white flex items-center">
+            Privacy Policy
+          </a>
           <a href="#" className="hover:text-white flex items-center">
             <span className="m-1 flex items-center justify-center border-[3px] border-blue-900 h-3.5 rounded-full">
               <CiSquareCheck className="text-shadow-zinc-300 bg-cyan-500 text-lg w-4 h-2.5" />
@@ -46,7 +63,6 @@ const Footer = () => {
         <p className="text-xs text-gray-500 text-center">
           © 1990-{new Date().getFullYear()} by underated.com, Inc
         </p>
-
       </div>
     </footer>
   );

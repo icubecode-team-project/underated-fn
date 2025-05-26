@@ -21,6 +21,17 @@ const MovieDetails = () => {
   const dispatch = useDispatch();
   const { id: movieId } = useParams();
   const isLoggedIn = useSelector((state) => state?.user?.isUserLogin);
+  const movieDetails = useSelector((store) => store?.movies?.movieDetails);
+  const user = useSelector((store) => store?.user?.userObject);
+
+  const userId = user?.id;
+
+  const isLiked = movieDetails?.userLikeData?.find((each) => each === userId);
+
+  const isDisliked = movieDetails?.userDisLikeData?.find(
+    (each) => each === userId
+  );
+  const isRated = movieDetails?.ratingUserData?.find((each) => each === userId);
 
   useEffect(() => {
     const fetchAndSetMovie = async () => {
@@ -41,12 +52,21 @@ const MovieDetails = () => {
     fetchAndSetMovie();
   }, [movieId]);
 
+  useEffect(() => {
+    if (isLiked) {
+      setLikeStatus("Liked");
+    } else if (isDisliked) {
+      setLikeStatus("Disliked");
+    } else {
+      setLikeStatus("Neutral");
+    }
+  }, [isLiked, isDisliked]);
+
   const handleLike = async () => {
     if (!isLoggedIn) return dispatch(openModel());
 
     if (likeStatus === "Liked") return;
 
-    // Optimistic update
     setLikeStatus("Liked");
     setLikeLoading(true);
 
@@ -64,17 +84,19 @@ const MovieDetails = () => {
       );
       const data = await response.json();
 
-      // ✅ Update the movie's like count locally
-      console.log("Like response:", data);
       if (data.status === "Success" || data.status === "Updated") {
-        setMovie((prevMovie) => ({
-          ...prevMovie,
-          like: (prevMovie.like || 0) + 1,
-        }));
+        setMovie((prevMovie) => {
+          const updatedMovie = {
+            ...prevMovie,
+            like: (prevMovie.like || 0) + 1,
+          };
+          dispatch(addMovieDetails(updatedMovie));
+          return updatedMovie;
+        });
       }
     } catch (error) {
       console.error("Error liking the movie:", error);
-      setLikeStatus("Neutral"); // Revert on error
+      setLikeStatus("Neutral");
     } finally {
       setLikeLoading(false);
     }
@@ -85,7 +107,6 @@ const MovieDetails = () => {
 
     if (likeStatus === "Disliked") return;
 
-    // Optimistic update
     setLikeStatus("Disliked");
     setDislikeLoading(true);
 
@@ -103,23 +124,26 @@ const MovieDetails = () => {
       );
       const data = await response.json();
 
-      // ✅ Update the movie's like count locally
       if (data.status === "Success" || data.status === "Updated") {
-        setMovie((prevMovie) => ({
-          ...prevMovie,
-          like: (prevMovie.like || 0) - 1,
-        }));
+        setMovie((prevMovie) => {
+          const updatedMovie = {
+            ...prevMovie,
+            like: (prevMovie.like || 0) - 1,
+          };
+          dispatch(addMovieDetails(updatedMovie));
+          return updatedMovie;
+        });
       }
     } catch (error) {
       console.error("Error disliking the movie:", error);
-      setLikeStatus("Neutral"); // Revert on error
+      setLikeStatus("Neutral");
     } finally {
       setDislikeLoading(false);
     }
   };
 
   const renderLoading = () => (
-    <div className="w-full bg-[#222222] px-12 flex flex-col justify-center gap-3 items-center min-h-[60vh]">
+    <div className="w-full bg-[#222222] px-12 flex flex-col justify-center gap-3 items-center min-h-[70vh]">
       <ClipLoader color="#36d7b7" size={50} loading={true} />
     </div>
   );
@@ -127,56 +151,67 @@ const MovieDetails = () => {
 
   const renderRating = () => (
     <div className="w-full bg-[#222222] px-12 flex flex-col gap-3 items-center min-h-screen">
-      <div className="text-white flex flex-row gap-6 items-start w-[60vw]">
-        <div className="flex-grow flex flex-col justify-start items-start gap-2 ">
-          <h1 className="text-3xl">{movie?.title}</h1>
-          <p>{movie?.releaseYear}</p>
+      <div className="text-white flex flex-col md:flex-row gap-2 md:gap-6 items-start w-[60vw]">
+        <div className="flex-grow flex flex-row md:flex-col justify-between md:justify-start items-start gap-2 w-full md:w-auto">
+          <h1 className="text-sm md:text-3xl">{movie?.title}</h1>
+          <p className="text-sm md:text-base">{movieDetails?.releaseYear}</p>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-2 ">
-          <h1 className="text-xl uppercase tracking-widest text-[#fefefe]">
+        <div className="flex sm:flex-row md:flex-col justify-between md:justify-start items-center gap-2 w-full md:w-auto ">
+          <h1 className="text-sm md:text-xl uppercase tracking-widest text-[#fefefe]">
             Rating
           </h1>
           <div className="flex flex-row gap-2 items-center">
-            <FaStar className="text-3xl text-yellow-500" />
-            <div>
-              <p className="text-2xl">{movie?.rating}</p>
-              <p>{movie?.voteCount || "vote count"}</p>
+            <FaStar className="text-sm md:text-3xl text-yellow-500" />
+            <div className="flex flex-col justify-center items-center md:items-start">
+              <p className="text-sm md:text-2xl">
+                {Math.round(movieDetails?.rating * 10) / 10}
+              </p>
+              <p className="text-sm md:text-base">
+                {movieDetails?.ratingCount + " ratings" || "vote count"}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-4 ">
-          <h1 className="text-xl uppercase tracking-widest text-[#fefefe]">
+        <div className="flex flex-row md:flex-col justify-between md:justify-start items-start gap-2 md:gap-4 w-full md:w-auto ">
+          <h1 className="text-sm md:text-xl uppercase tracking-widest text-[#fefefe]">
             Your Rating
           </h1>
-          <div
-            className="flex flex-row justify-center items-center gap-2 text-2xl text-blue-500 font-bold cursor-pointer"
-            onClick={() => dispatch(openModel())}
-          >
-            <FaRegStar />
-            <p>Rate</p>
-          </div>
+          {isRated ? (
+            <div className="flex flex-row justify-center items-center gap-2   text-green-500 font-bold cursor-not-allowed opacity-50 pl-20 md:pl-0">
+              <FaRegStar className="text-sm md:text-2xl" />
+              <p className="text-sm md:text-base">Rating Submitted</p>
+            </div>
+          ) : (
+            <div
+              className="flex flex-row justify-center items-center gap-2 text-sm md:text-2xl text-blue-500 font-bold cursor-pointer"
+              onClick={() => dispatch(openModel())}
+            >
+              <FaRegStar />
+              <p>Rate</p>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="flex flex-row justify-center w-[60vw] relative">
+      <div className="flex flex-row justify-center w-[80vw] md:w-[60vw] relative">
         <img
-          src={POSTER_CDN + movie?.imageUrl}
+          src={POSTER_CDN + movieDetails?.imageUrl}
           alt="movie poster"
-          className="w-[40vw] rounded-lg"
+          className="w-[60vw] md:w-[40vw] rounded-lg"
         />
       </div>
 
-      <div className="flex justify-between w-[60vw]">
-        <div className="flex flex-row justify-start items-start gap-2 pt-4">
-          {(movie?.type ? JSON.parse(movie?.type) : []).map(
+      <div className="flex flex-col md:flex-row justify-between w-[80vw] md:w-[60vw] gap-4">
+        <div className="flex flex-row justify-center md:justify-start items-start gap-2 pt-4 text-[8px] md:text-lg">
+          {(movieDetails?.type ? JSON.parse(movieDetails?.type) : []).map(
             (genreId, index) => {
               const genreName = geners.find((g) => g.id == genreId)?.name;
               return genreName ? (
                 <div
                   key={index}
-                  className="bg-[#444444] text-white rounded-[30px] px-6 py-1"
+                  className="bg-[#444444] text-white rounded-[30px] px-3 md:px-6 py-1"
                 >
                   {genreName}
                 </div>
@@ -185,13 +220,13 @@ const MovieDetails = () => {
           )}
         </div>
 
-        <div className="flex flex-row items-center gap-4 cursor-pointer">
+        <div className="flex flex-row justify-center items-center gap-4 cursor-pointer md:text-lg">
           <div className="text-white flex flex-col items-center">
             <p className="font-bold">Likes</p>
-            <p>{movie?.like}</p>
+            <p>{movieDetails?.like}</p>
           </div>
 
-          {/* Like button with transition */}
+          {/* Like button */}
           <div
             className="text-white flex flex-col items-center transition-transform duration-300 ease-in-out"
             onClick={handleLike}
@@ -214,8 +249,7 @@ const MovieDetails = () => {
               </div>
             )}
           </div>
-
-          {/* Dislike button with transition */}
+          {/* Dislike button */}
           <div
             className="text-white flex flex-col items-center transition-transform duration-300 ease-in-out"
             onClick={handleDislike}
@@ -228,9 +262,7 @@ const MovieDetails = () => {
               >
                 <AiTwotoneDislike className="text-2xl text-blue-500 scale-110" />
                 <p className="text-blue-500">
-                  {dislikeLoading && "animate-pulse"
-                    ? "Disliking..."
-                    : "Disliked"}
+                  {dislikeLoading ? "Disliking..." : "Disliked"}
                 </p>
               </div>
             ) : (
@@ -243,8 +275,8 @@ const MovieDetails = () => {
         </div>
       </div>
 
-      <div className="pb-6 pt-4 w-[60vw]">
-        <p className="text-white pr-12">{movie?.description}</p>
+      <div className=" pb-2 md:pb-6 pl-4 pt-2 md:pt-4 w-[90vw]">
+        <p className="text-white pr-12">{movieDetails?.description}</p>
       </div>
     </div>
   );
